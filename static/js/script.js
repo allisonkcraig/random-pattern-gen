@@ -1,38 +1,57 @@
-colorsLst = ['#F5A999', '#EDBBA2', '#D3D4C4', '#B3CBBD', '#B9C1B2', '#83AF9B']
-
-var randColor = Math.random();
-randColor *= colorsLst.length; 
-randColor = Math.floor(randColor);
-console.log(randColor)
-
-var c=document.getElementById("pattern-table");
-var ctx=c.getContext("2d");
-ctx.rect(0,0,500,500);
-ctx.fillStyle=colorsLst[randColor];
-ctx.fill();
-
-var image1 = function(srcforimage1){
-	var canvas = document.getElementById('pattern-table'),
-	context = canvas.getContext('2d');
-
+var generateRandomAxis = function() {
 	var j = Math.floor(Math.random() * 100);
-
-	var height = Math.floor(Math.random() * 500);
-	if (height > 249){
-		height = 249
-	};
-	var width = height
-
 	var x = Math.floor(Math.random() * 500);
 	var i = Math.random() * j;
 	var y = x - i
+	return y
+}
 
-	var a = Math.floor(Math.random() * 500);
-	var b = Math.random() * j;
-	var c = a - b
+var generateSource = function(lst) {
+	var rand = Math.random();
+	rand *= lst.length; 
+	rand = Math.floor(rand);
+	return lst[rand]
 
-	var startx = y
-	var starty = c
+}
+
+var pickRandomRotation = function() {
+	rand = Math.floor(Math.random() * 180) + 1
+	console.log("RAND ROTATION", rand) 
+}
+
+pickRandomRotation()
+
+
+var generate_background_color = function() {
+	colorsLst = ['#F5A999', '#EDBBA2', '#D3D4C4', '#B3CBBD', '#B9C1B2', '#83AF9B']
+
+	var c=document.getElementById("pattern-table");
+	var ctx=c.getContext("2d");
+	ctx.rect(0,0,500,500);
+	ctx.fillStyle=generateSource(colorsLst);
+	ctx.fill();
+}
+
+
+var image1 = function(srcforimage1){
+	var canvas = document.getElementById('pattern-table');
+	context = canvas.getContext('2d');
+
+	// Calculate how big image will be
+	var height = Math.floor(Math.random() * 500);
+
+	// if image is bigger than apporx half of the canvas there are some issues with it translating on canvas. 
+	// Quick fix, if image is bigger than half of canvas size, make heigh one pixel less than half of canvas size 
+	if (height > 249){
+		height = 249
+	};
+
+	var width = height
+
+	// generate starting points for image on canvas
+	var startx = generateRandomAxis()
+	var starty = generateRandomAxis()
+
 	if (startx >= 250){
 		var endx = startx - 500
 	}else{
@@ -45,45 +64,45 @@ var image1 = function(srcforimage1){
 		var endys = starty + 500
 	}
 
+	//Call functions that draft each image onto the canvas
+	makeBase();
+	makeBase2();
+	makeBase3();
+	makeBase4();
 
-	make_base();
-	make_base2();
-	make_base3();
-	make_base4();
-
-	function make_base()
+	function makeBase()
 	{
-		base_image = new Image();
-		base_image.src = srcforimage1;
-		base_image.onload = function(){
-			context.drawImage(base_image, startx, starty, height, width);
+		baseImage = new Image();
+		baseImage.src = srcforimage1;
+		baseImage.onload = function(){
+			context.drawImage(baseImage, startx, starty, height, width);
 		}
 	};
 
-	function make_base2()
+	function makeBase2()
 	{
-		base_image2 = new Image();
-		base_image2.src = srcforimage1;
-		base_image2.onload = function(){
-			context.drawImage(base_image2, endx, endy, height, width);
+		baseImage2 = new Image();
+		baseImage2.src = srcforimage1;
+		baseImage2.onload = function(){
+			context.drawImage(baseImage2, endx, endy, height, width);
 		}
 	};
 
-	function make_base3()
+	function makeBase3()
 	{
-		base_image3 = new Image();
-		base_image3.src = srcforimage1;
-		base_image3.onload = function(){
-			context.drawImage(base_image3, startx, endy, height, width);
+		baseImage3 = new Image();
+		baseImage3.src = srcforimage1;
+		baseImage3.onload = function(){
+			context.drawImage(baseImage3, startx, endy, height, width);
 		}
 	};
 
-	function make_base4()
+	function makeBase4()
 	{
-		base_image4 = new Image();
-		base_image4.src = srcforimage1;
-		base_image4.onload = function(){
-			context.drawImage(base_image4, endx, starty, height, width);
+		baseImage4 = new Image();
+		baseImage4.src = srcforimage1;
+		baseImage4.onload = function(){
+			context.drawImage(baseImage4, endx, starty, height, width);
 		}
 	};
 }
@@ -91,25 +110,22 @@ var image1 = function(srcforimage1){
 var image2 = function(srcforimage){
 	var canvas = document.getElementById('pattern-table'),
 	context2 = canvas.getContext('2d');
-
-	var j = Math.floor(Math.random() * 100);
-
+	
+	// Calculate how big image will be
 	var height = Math.floor(Math.random() * 500);
+
+	// if image is bigger than apporx half of the canvas there are some issues with it translating on canvas. 
+	// Quick fix, if image is bigger than half of canvas size, make heigh one pixel less than half of canvas size 
 	if (height > 249){
 		height = 249
 	};
+
 	var width = height
 
-	var x = Math.floor(Math.random() * 500);
-	var i = Math.random() * j;
-	var y = x - i
+	// generate starting points for image on canvas
+	var startx = generateRandomAxis()
+	var starty = generateRandomAxis()
 
-	var a = Math.floor(Math.random() * 500);
-	var b = Math.random() * j;
-	var c = a - b
-
-	var startx = y
-	var starty = c
 	if (startx >= 250){
 		var endx = startx - 500
 	}else{
@@ -122,71 +138,70 @@ var image2 = function(srcforimage){
 		var endys = starty + 500
 	}
 
-	make_base5();
-	make_base6();
-	make_base7();
-	make_base8();
+	//Call functions that draft each image onto the canvas
+	makeBase5();
+	makeBase6();
+	makeBase7();
+	makeBase8();
 
-	function make_base5()
+	function makeBase5()
 	{
-		base_image5 = new Image();
-		base_image5.src = srcforimage;
-		base_image5.onload = function(){
-			context2.drawImage(base_image5, startx, starty, height, width);
+		baseImage5 = new Image();
+		baseImage5.src = srcforimage;
+		baseImage5.onload = function(){
+			context2.drawImage(baseImage5, startx, starty, height, width);
 		}
 	}
 
-	function make_base6()
+	function makeBase6()
 	{
-		base_image6 = new Image();
-		base_image6.src = srcforimage;
-		base_image6.onload = function(){
-			context2.drawImage(base_image6, endx, endy, height, width);
+		baseImage6 = new Image();
+		baseImage6.src = srcforimage;
+		baseImage6.onload = function(){
+			context2.drawImage(baseImage6, endx, endy, height, width);
 		}
 	}
 
-	function make_base7()
+	function makeBase7()
 	{
-		base_image7 = new Image();
-		base_image7.src = srcforimage;
-		base_image7.onload = function(){
-			context2.drawImage(base_image7, startx, endy, height, width);
+		baseImage7 = new Image();
+		baseImage7.src = srcforimage;
+		baseImage7.onload = function(){
+			context2.drawImage(baseImage7, startx, endy, height, width);
 		}
 	}
 
-	function make_base8()
+	function makeBase8()
 	{
-		base_image8 = new Image();
-		base_image8.src = srcforimage;
-		base_image8.onload = function(){
-			context2.drawImage(base_image8, endx, starty, height, width);
+		baseImage8 = new Image();
+		baseImage8.src = srcforimage;
+		baseImage8.onload = function(){
+			context2.drawImage(baseImage8, endx, starty, height, width);
 		}
 	}
 };
 
 var image3 = function(srcforimage){
+	// Create context for canvas
 	var canvas = document.getElementById('pattern-table'),
 	context3 = canvas.getContext('2d');
 
-	
-	var j = Math.floor(Math.random() * 100);
 
+	// Calculate how big image will be
 	var height = Math.floor(Math.random() * 500);
+
+	// if image is bigger than apporx half of the canvas there are some issues with it translating on canvas. 
+	// Quick fix, if image is bigger than half of canvas size, make heigh one pixel less than half of canvas size 
 	if (height > 249){
 		height = 249
 	};
+
 	var width = height
 
-	var x = Math.floor(Math.random() * 500);
-	var i = Math.random() * j;
-	var y = x - i
+	// generate starting points for image on canvas
+	var startx = generateRandomAxis()
+	var starty = generateRandomAxis()
 
-	var a = Math.floor(Math.random() * 500);
-	var b = Math.random() * j;
-	var c = a - b
-
-	var startx = y
-	var starty = c
 	if (startx >= 250){
 		var endx = startx - 500
 	}else{
@@ -199,44 +214,45 @@ var image3 = function(srcforimage){
 		var endys = starty + 500
 	}
 
-	make_base9();
-	make_base10();
-	make_base11();
-	make_base12();
+	//Call functions that draft each image onto the canvas
+	makeBase9();
+	makeBase10();
+	makeBase11();
+	makeBase12();
 
-	function make_base9()
+	function makeBase9()
 	{
-		base_image9 = new Image();
-		base_image9.src = srcforimage;
-		base_image9.onload = function(){
-			context3.drawImage(base_image9, startx, starty, height, width);
+		baseImage9 = new Image();
+		baseImage9.src = srcforimage;
+		baseImage9.onload = function(){
+			context3.drawImage(baseImage9, startx, starty, height, width);
 		}
 	}
 
-	function make_base10()
+	function makeBase10()
 	{
-		base_image10 = new Image();
-		base_image10.src = srcforimage;
-		base_image10.onload = function(){
-			context3.drawImage(base_image10, endx, endy, height, width);
+		baseImage10 = new Image();
+		baseImage10.src = srcforimage;
+		baseImage10.onload = function(){
+			context3.drawImage(baseImage10, endx, endy, height, width);
 		}
 	}
 
-	function make_base11()
+	function makeBase11()
 	{
-		base_image11 = new Image();
-		base_image11.src = srcforimage;
-		base_image11.onload = function(){
-			context3.drawImage(base_image11, startx, endy, height, width);
+		baseImage11 = new Image();
+		baseImage11.src = srcforimage;
+		baseImage11.onload = function(){
+			context3.drawImage(baseImage11, startx, endy, height, width);
 		}
 	}
 
-	function make_base12()
+	function makeBase12()
 	{
-		base_image12 = new Image();
-		base_image12.src = srcforimage;
-		base_image12.onload = function(){
-			context3.drawImage(base_image12, endx, starty, height, width);
+		baseImage12 = new Image();
+		baseImage12.src = srcforimage;
+		baseImage12.onload = function(){
+			context3.drawImage(baseImage12, endx, starty, height, width);
 		}
 	}
 };
@@ -244,26 +260,20 @@ var image3 = function(srcforimage){
 var image4 = function(srcforimage){
 	var canvas = document.getElementById('pattern-table'),
 	context4 = canvas.getContext('2d');
-
-	
-	var j = Math.floor(Math.random() * 100);
-
+	// Calculate how big image will be
 	var height = Math.floor(Math.random() * 500);
+	// if image is bigger than apporx half of the canvas there are some issues with it translating on canvas. 
+	// Quick fix, if image is bigger than half of canvas size, make heigh one pixel less than half of canvas size
 	if (height > 249){
 		height = 249
 	};
+
 	var width = height
 
-	var x = Math.floor(Math.random() * 500);
-	var i = Math.random() * j;
-	var y = x - i
+	// generate starting points for image on canvas
+	var startx = generateRandomAxis()
+	var starty = generateRandomAxis()
 
-	var a = Math.floor(Math.random() * 500);
-	var b = Math.random() * j;
-	var c = a - b
-
-	var startx = y
-	var starty = c
 	if (startx >= 250){
 		var endx = startx - 500
 	}else{
@@ -276,56 +286,138 @@ var image4 = function(srcforimage){
 		var endys = starty + 500
 	}
 
-	make_base13();
-	make_base14();
-	make_base15();
-	make_base16();
+	//Call functions that draft each image onto the canvas
+	makeBase13();
+	makeBase14();
+	makeBase15();
+	makeBase16();
 
-	function make_base13()
+	function makeBase13()
 	{
-		base_image13 = new Image();
-		base_image13.src = srcforimage;
-		base_image13.onload = function(){
-			context4.drawImage(base_image13, startx, starty, height, width);
+		baseImage13 = new Image();
+		baseImage13.src = srcforimage;
+		baseImage13.onload = function(){
+			context4.drawImage(baseImage13, startx, starty, height, width);
 		}
 	}
 
-	function make_base14()
+	function makeBase14()
 	{
-		base_image14 = new Image();
-		base_image14.src = srcforimage;
-		base_image14.onload = function(){
-			context4.drawImage(base_image14, endx, endy, height, width);
+		baseImage14 = new Image();
+		baseImage14.src = srcforimage;
+		baseImage14.onload = function(){
+			context4.drawImage(baseImage14, endx, endy, height, width);
 		}
 	}
 
-	function make_base15()
+	function makeBase15()
 	{
-		base_image15 = new Image();
-		base_image15.src = srcforimage;
-		base_image15.onload = function(){
-			context4.drawImage(base_image15, startx, endy, height, width);
+		baseImage15 = new Image();
+		baseImage15.src = srcforimage;
+		baseImage15.onload = function(){
+			context4.drawImage(baseImage15, startx, endy, height, width);
 		}
 	}
 
-	function make_base16()
+	function makeBase16()
 	{
-		base_image16 = new Image();
-		base_image16.src = srcforimage;
-		base_image16.onload = function(){
-			context4.drawImage(base_image16, endx, starty, height, width);
+		baseImage16 = new Image();
+		baseImage16.src = srcforimage;
+		baseImage16.onload = function(){
+			context4.drawImage(baseImage16, endx, starty, height, width);
 		}
 	}
 }
 
+var image5 = function(srcforimage){
+	var canvas = document.getElementById('pattern-table'),
+	context5 = canvas.getContext('2d');
+	// Calculate how big image will be
+	var height = Math.floor(Math.random() * 500);
+	// if image is bigger than apporx half of the canvas there are some issues with it translating on canvas. 
+	// Quick fix, if image is bigger than half of canvas size, make heigh one pixel less than half of canvas size
+	if (height > 249){
+		height = 249
+	};
 
-var imageList = ['http://orig11.deviantart.net/3494/f/2012/199/4/1/gem_png_by_doloresdevelde-d57p0sp.png',
+	var width = height
+
+	// generate starting points for image on canvas
+	var startx = generateRandomAxis()
+	var starty = generateRandomAxis()
+
+	if (startx >= 250){
+		var endx = startx - 500
+	}else{
+		var endx = startx + 500
+	}
+
+	if (starty >= 250){
+		var endy = starty - 500
+	}else{
+		var endys = starty + 500
+	}
+
+	//Call functions that draft each image onto the canvas
+	makeBase17();
+	makeBase18();
+	makeBase19();
+	makeBase20();
+
+	function makeBase17()
+	{
+		baseImage17 = new Image();
+		baseImage17.src = srcforimage;
+		baseImage17.onload = function(){
+			context5.drawImage(baseImage17, startx, starty, height, width);
+		}
+	}
+
+	function makeBase18()
+	{
+		baseImage18 = new Image();
+		baseImage18.src = srcforimage;
+		baseImage18.onload = function(){
+			context5.drawImage(baseImage18, endx, endy, height, width);
+		}
+	}
+
+	function makeBase19()
+	{
+		baseImage19 = new Image();
+		baseImage19.src = srcforimage;
+		baseImage19.onload = function(){
+			context5.drawImage(baseImage19, startx, endy, height, width);
+		}
+	}
+
+	function makeBase20()
+	{
+		baseImage20 = new Image();
+		baseImage20.src = srcforimage;
+		baseImage20.onload = function(){
+			context5.drawImage(baseImage20, endx, starty, height, width);
+		}
+	}
+}
+
+var imageList = ['static/img/spoongraphic-watercolor/1.png', 
+					'static/img/spoongraphic-watercolor/2.png',
+					'static/img/spoongraphic-watercolor/3.png',
+					'static/img/spoongraphic-watercolor/4.png',
+					'static/img/spoongraphic-watercolor/5.png',
+					'static/img/spoongraphic-watercolor/6.png',
+					'static/img/spoongraphic-watercolor/7.png',
+					'static/img/spoongraphic-watercolor/8.png'
+
+
+]
+
+var gemList = ['http://orig11.deviantart.net/3494/f/2012/199/4/1/gem_png_by_doloresdevelde-d57p0sp.png',
 				'http://orig08.deviantart.net/3ecb/f/2012/199/0/8/gem_png_by_doloresdevelde-d57oyqr.png',
 				'http://orig14.deviantart.net/0823/f/2012/199/5/f/gem_png_by_doloresdevelde-d57oz0e.png',
 				'http://orig03.deviantart.net/692b/f/2012/199/9/7/gem_png_by_doloresdevelde-d57p04g.png',
-				'http://orig01.deviantart.net/4dd5/f/2012/286/e/1/citrine_oval_gem_by_artg33k74-d5hov1e.png'
-
-]
+				'http://orig01.deviantart.net/4dd5/f/2012/286/e/1/citrine_oval_gem_by_artg33k74-d5hov1e.png']
 
 var flowerList = [	'http://www.clipartqueen.com/image-files/red-flower-yellow.png', 
 					'http://detoxretox.org/testimonials/files/small_5858.png', 
@@ -333,29 +425,12 @@ var flowerList = [	'http://www.clipartqueen.com/image-files/red-flower-yellow.pn
 					'http://static1.squarespace.com/static/5166ce33e4b07ccd0c1e5213/51aa598ce4b0c88fb2009233/51aa59d2e4b02f35a70f00cb/1370118610947/Carnation.png', 
 					'http://data.whicdn.com/images/59850935/large.png']
 
-var rand1 = Math.random();
-rand1 *= imageList.length; 
-rand1 = Math.floor(rand1);
 
-var rand2 = Math.random();
-rand2 *= imageList.length; 
-rand2 = Math.floor(rand2);
-
-var rand3 = Math.random();
-rand3 *= imageList.length; 
-rand3 = Math.floor(rand3);
-
-var rand4 = Math.random();
-rand4 *= imageList.length; 
-rand4 = Math.floor(rand4);
-
-
-// image4(imageList1[rand1])
-
-
-image1(imageList[rand1]);
-image2(imageList[rand2]);
-image3(imageList[rand3]);
-image4(imageList[rand4]);
+// generate_background_color();
+image1(generateSource(imageList));
+image2(generateSource(imageList));
+image3(generateSource(imageList));
+image4(generateSource(imageList));
+image5(generateSource(imageList));
 
 
